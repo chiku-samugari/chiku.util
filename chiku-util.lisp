@@ -112,7 +112,8 @@
 ;;;    (remove nil (mapcar (lambda (x idx) (if (pred (funcall key x)) idx nil)) lst (iota (length lst))))))
 ;;;
 ;;; 22 Dec, 2010 chiku
-;;; I revised the definition. This version works not only for list but also for general sequence.
+;;; I revised the definition. This version works not only for list but
+;;; also for general sequence.
 (defun position-list (item seq &key (key #'identity) (test #'eql))
   (labels ((rec (s acc)
                 (let ((pos (position item s :key key :test test)))
@@ -122,10 +123,12 @@
     (rest (rec seq (list -1)))))
 
 ;;; POSITINO-IF-LIST function;{{{
-;;; This function makes the list constructs from the position of elements in "lst" which sufferes "pred".
+;;; This function makes the list constructs from the position of
+;;; elements in "lst" which satisfies "pred".
 ;;; 16th Nov, 2010
-;;; This function must be implemented based on POSITION-IF.
-;;; Thus I change the order of "pred" and "lst". (I've already been familiar with this order, in any way);}}}
+;;; This function must be implemented based on POSITION-IF.  Thus I
+;;; change the order of "pred" and "lst". (I've already been familiar
+;;; with this order, in any way);}}}
 (defun position-if-list (pred seq &key (key #'identity))
   (if (eql (type-of seq) 'cons)
     (let ((dummy (gensym)))
@@ -173,7 +176,7 @@
 (defun ITOA (num)
   (format nil "~a" num))
 
-;;; TAKEwHILE function
+;;; TAKEWHILE function
 ;;; I took this function from Haskell.
 ;;; How can I give the implementation for sequence?
 ;;; Jan. 06th 2014, chiku
@@ -231,9 +234,10 @@
 ;;; This function behaves same as GROUP, but works for any sequence.
 (defun seqgroup (seq n)
   (labels ((rec (s a)
-                (if (/= 0 (length s))
-                  (rec (subseq s (min n (length s))) (cons (subseq s 0 (min n (length s))) a))
-                  (nreverse a))))
+             (if (/= 0 (length s))
+               (rec (subseq s (min n (length s)))
+                    (cons (subseq s 0 (min n (length s))) a))
+               (nreverse a))))
     (rec seq nil)))
 
 ;;; COMPOSE function;{{{
@@ -337,16 +341,16 @@
 ;;; it's not used. Thus, I decided to save them to this file.
 (defmacro in (obj &rest choices)
   (with-gensyms (insym)
-                `(let ((,insym ,obj))
-                   (or ,@(mapcar (lambda (c) `(eql ,insym ,c)) choices)))))
+    `(let ((,insym ,obj))
+       (or ,@(mapcar (lambda (c) `(eql ,insym ,c)) choices)))))
 
 (defmacro inq (obj &rest choices)
   `(in ,obj ,@(mapcar (lambda (c) `',c) choices)))
 
 (defmacro in-if (fn &rest choices)
   (with-gensyms (fn-var)
-                `(let ((,fn-var ,fn))
-                   (or ,@(mapcar (lambda (c) `(funcall ,fn-var ,c)) choices)))))
+    `(let ((,fn-var ,fn))
+       (or ,@(mapcar (lambda (c) `(funcall ,fn-var ,c)) choices)))))
 
 (defmacro curry (fn)
   " curry fn => function;{{{
