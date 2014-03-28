@@ -203,7 +203,8 @@
 ;;; changed.
 (defun dropwhile (pred seq &rest args &key from-end (start 0) end key)
   (declare (ignore from-end start end key))
-  (subseq seq (apply #'position-if (complement pred) seq args)))
+  (aif (apply #'position-if (complement pred) seq args)
+    (subseq seq it)))
 
 ;;; GROUP function;{{{
 ;;; I took this name and idea from OnLisp. How useful book is this ...
