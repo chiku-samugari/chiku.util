@@ -1,6 +1,6 @@
 (defpackage :chiku.util
   (:use :cl :papply)
-  (:export 
+  (:export
     :map-int-compositions
     ;:extract-vars
     :stride-mapcan

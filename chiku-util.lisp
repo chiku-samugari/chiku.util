@@ -638,7 +638,7 @@
 ;;; FILTER function
 ;;; I took this function from "On Lisp"
 ;;; Aug. 27th 2013, chiku
-;;;  Improve it to take 2 or more lsts.
+;;;  Improve it to take 2 or more lists.
 (defun filter (fn &rest lsts)
   (let ((acc nil))
     (dolist (args (apply #'mapcar #'list lsts) (nreverse acc))
