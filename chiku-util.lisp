@@ -15,6 +15,15 @@
               `(,(car name) (gensym (or ,(cadr name) "G"))))))
      ,@body))
 
+(defmacro aif (test-form then-form &optional else-form)
+  `(let ((it ,test-form))
+     (if it ,then-form ,else-form)))
+
+(defmacro aand (&rest forms)
+  (cond ((null forms) t)
+        ((null (cdr forms)) (car forms))
+        (t `(aif ,(car forms) (aand ,@(cdr forms))))))
+
 ;;; LAST1 function
 ;;; I took this name from "On-Lisp".
 (defun last1 (lst) (car (last lst)))
@@ -624,15 +633,6 @@
         (cons 0 (mapcar #'1+ tail-pos))
         (if mark-discard?  tail-pos (mapcar #'1+ tail-pos)))
       (if tail-pos (subseq seq (1+ (last1 tail-pos))) seq))))
-
-(defmacro aif (test-form then-form &optional else-form)
-  `(let ((it ,test-form))
-     (if it ,then-form ,else-form)))
-
-(defmacro aand (&rest forms)
-  (cond ((null forms) t)
-        ((null (cdr forms)) (car forms))
-        (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
 ;;; FILTER function
 ;;; I took this function from "On Lisp"
