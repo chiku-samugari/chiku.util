@@ -109,5 +109,8 @@
     :pushupdate
     :fillin
     :mvvalues
+    :mvdo
+    :mvdo*
+    :mvpsetq
     ;; Variables
     :self :it :requisite :rec))
