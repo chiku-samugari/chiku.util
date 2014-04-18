@@ -109,6 +109,7 @@
     :pushupdate
     :fillin
     :mvvalues
+    :mvconstantly
     :mvdo
     :mvdo*
     :mvpsetq

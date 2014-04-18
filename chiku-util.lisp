@@ -1241,3 +1241,8 @@
 
 (defun mvvalues (&rest multiple-values)
   (multiple-value-call #'values multiple-values))
+
+(defun mvconstantly (&rest args)
+  (lambda (&rest garbages)
+    (declare (ignore garbages))
+    (apply #'values args)))
