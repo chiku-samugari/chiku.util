@@ -1239,7 +1239,7 @@
 (defun fillin (lst len &optional fillin-value)
   (append lst (make-list (- len (length lst)) :initial-element fillin-value)))
 
-(defun mvvalues (&rest multiple-values)
+(defun mvidentity (&rest multiple-values)
   (multiple-value-call #'values multiple-values))
 
 (defun mvconstantly (&rest args)
