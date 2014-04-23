@@ -94,7 +94,8 @@
     :itoa
     :maptree
     :listfork-if
-    :keymax
+    :argmax
+    :argmin
     :int-compositions
     :map0-n
     :position-if-list

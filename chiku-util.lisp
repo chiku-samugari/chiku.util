@@ -922,11 +922,18 @@
 
 ;;; Oct. 7th 2012, chiku
 ;;; KEYMAX function
-(defun keymax (key &rest args)
+;;; Apr. 23rd 2014, chiku
+;;; In Lisp Meet Up 16, I came to know that this idea is called argmax
+;;; in mathematics.
+(defun argmax (key &rest args)
   "MAX function accompanied with a function that act as a :KEY keyword
    parameter in some sequence functions."
   (if args
     (find (apply #'max (mapcar key args)) args :key key)))
+
+(defun argmin (key &rest args)
+  (if args
+    (find (apply #'min (mapcar key args)) args :key key)))
 
 ;;; Oct. 7th 2012, chiku
 ;;; A variation of LONGER function from On Lisp.  The definition
