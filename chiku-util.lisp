@@ -16,8 +16,12 @@
      ,@body))
 
 (defmacro aif (test-form then-form &optional else-form)
-  `(let ((it ,test-form))
-     (if it ,then-form ,else-form)))
+  (with-gensyms (tmp)
+    `(let ((,tmp ,test-form))
+       (if ,tmp
+         (let ((it ,tmp))
+           ,then-form)
+         ,else-form))))
 
 (defmacro aand (&rest forms)
   (cond ((null forms) t)
