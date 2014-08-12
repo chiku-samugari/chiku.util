@@ -343,7 +343,8 @@
 ;;; Apply a function that will be offered as argument "func" to each leave of this tree.;}}}
 (eval-when (:load-toplevel :compile-toplevel :execute)
   (defun maptree (func tree &key (pred #'atom))
-    (if (funcall pred tree) (funcall func tree)
+    (if (funcall pred tree)
+      (funcall func tree)
       (mapcar (lambda (x) (maptree func x :pred pred)) tree))))
 
 (defmacro with-tree-leaves (tree test-form result-form)
