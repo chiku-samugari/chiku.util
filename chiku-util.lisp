@@ -1188,9 +1188,11 @@
 (defmacro list/det% (&body clauses)
   (if clauses
     (let ((head (car clauses)))
-    `(if ,(car head)
-       (cons ,(cadr head) (list/det% ,@(cdr clauses)))
-       (list/det% ,@(cdr clauses))))))
+      (if (eq (car head) t)
+        `(cons ,(cadr head) (list/det% ,@(cdr clauses)))
+        `(if ,(car head)
+           (cons ,(cadr head) (list/det% ,@(cdr clauses)))
+           (list/det% ,@(cdr clauses)))))))
 
 (defmacro list/det (&body clauses)
   (if (< (length clauses) 10)
