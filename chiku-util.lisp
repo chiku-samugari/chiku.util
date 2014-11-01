@@ -268,21 +268,6 @@
 (defun compose (fn-lst)
   (lambda (x) (reduce (lambda (a fn) (funcall fn a)) (cons x fn-lst))))
 
-(defmacro str-case (str &body key-value-lst)
-  (with-gensyms (given-str)
-    `(let ((,given-str ,str))
-       (cond
-         ,@(do ((kvlst (cdr (append key-value-lst (list nil))) (cdr kvlst))
-                (key (caar key-value-lst) (caar kvlst))
-                (value (cadar key-value-lst) (cadar kvlst))
-                (result nil))
-             ((null kvlst) (nreverse result))
-             (push
-               (if (or (eq t key) (eq 'otherwise key))
-                 `(t ,value)
-                 `((string= ,given-str ,key) ,value))
-               result))))))
-
 (defun flatmap (result-type fn &rest lsts)
   "Reduce the result of (map result-type fn lsts) by ``nconc.''"
   (reduce #'nconc (apply #'map (cons result-type (cons fn lsts)))))
@@ -381,6 +366,17 @@
   (with-gensyms (x)
     `(lambda (,x)
        (papply ,fn ,x))))
+
+(defmacro str-case (str &body key-value-lst)
+  (with-gensyms (given-str)
+    `(let ((,given-str ,str))
+       (cond
+         ,@(mapcar #'(let ((key (car a0)))
+                       `(,(if (atom key)
+                            `(string= ,given-str ,key)
+                            `(in-if #`(string= ,',given-str ,a0) ,@key))
+                          ,@(cdr a0)))
+                   key-value-lst)))))
 
 ;;; Sep. 26th 2011, chiku
 ;;; stride-maplist
