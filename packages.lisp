@@ -73,6 +73,7 @@
     :concat-str
     :package-inherited-symbols
     :with-tree-leaves
+    :leaf
     :take
     :str-case
     :denotative-stable-sort
