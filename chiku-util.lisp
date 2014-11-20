@@ -159,8 +159,9 @@
 ;;; This function will concatenate given strings.
 ;;; It's the short form for "(concatenate 'string ... )"
 ;;; Should it be written as a macro? I'm not sure ...;}}}
-(defun concat-str (&rest strs)
-  (apply #'concatenate (cons 'string strs)))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun concat-str (&rest strs)
+    (apply #'concatenate (cons 'string strs))))
 
 
 ;;; FLATTEN function;{{{
