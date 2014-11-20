@@ -1145,15 +1145,15 @@
 ;;; Aug. 27th 2013, chiku
 ;;; DOLISTS macro.
 (labels ((collect-vars (forms)
-           (stride-mapcar 2 #'identity forms))
-         (lookup-initform (var var-and-forms)
-           (cadr (member var var-and-forms))))
-  (defmacro dolists ((var-and-initforms &optional return-form) &body body)
-    (let ((vars (mapcar (apapply (cons a0 (gensym (concat-str (symbol-name a0) "-LST"))))
-                        (collect-vars var-and-initforms))))
+           (mapcar #'car forms))
+         (lookup-initform (var vars-and-lists)
+           (cadr (assoc var vars-and-lists))))
+  (defmacro dolists (vars-and-lists &body body)
+    (let ((vars (mapcar #'(cons a0 (gensym (concat-str (symbol-name a0) "-LST")))
+                        (collect-vars vars-and-lists))))
       `(symbol-macrolet (,@(mapcar #`(,(car a0) (car ,(cdr a0))) vars))
-         (do (,@(mapcar #`(,(cdr a0) ,(lookup-initform (car a0) var-and-initforms) (cdr ,(cdr a0))) vars))
-           ((in-if #'null ,@(mapcar #'cdr vars)) ,return-form)
+         (do (,@(mapcar #`(,(cdr a0) ,(lookup-initform (car a0) vars-and-lists) (cdr ,(cdr a0))) vars))
+           ((in-if #'null ,@(mapcar #'cdr vars)) nil)
            ,@body)))))
 
 ;;; Oct. 06th 2013, chiku
