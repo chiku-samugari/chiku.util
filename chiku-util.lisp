@@ -907,11 +907,13 @@
 ;;; Dec. 4th 2012, chiku
 ;;; I realized that the result for MACROEXPAND-1 is different. PCL version
 ;;; is more clearer.
+;;; Nov. 20th 2014, chiku
+;;; The name of GENSYMs are improved.
 (defmacro once-only ((&rest names) &body body)
-  (let ((gensyms (loop for n in names collect (gensym))))
-    `(let (,@(loop for g in gensyms collect `(,g (gensym))))
+  (let ((gensyms (loop for n in names collect (gensym (concat-str "SUB-" (string n))))))
        `(let (,,@(loop for g in gensyms for n in names collect ``(,,g ,,n)))
           ,(let (,@(loop for n in names for g in gensyms collect `(,n ,g)))
+    `(let (,@(loop for g in gensyms for n in names collect `(,g (gensym ,(string n)))))
              ,@body)))))
 
 ;;; Oct. 7th 2012, chiku
