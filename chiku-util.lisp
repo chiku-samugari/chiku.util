@@ -8,7 +8,7 @@
 ;;; Oct. 09th 2013, chiku
 ;;; I want to pass an argument to GENSYM.
 (defmacro with-gensyms ((&rest names) &body body)
-  `(let ,(loop for n in names collect
+  `(let ,(loop :for n :in names :collect
           (let ((name n))
             (if (atom name)
               `(,name (gensym ,(symbol-name name)))
@@ -910,10 +910,10 @@
 ;;; Nov. 20th 2014, chiku
 ;;; The name of GENSYMs are improved.
 (defmacro once-only ((&rest names) &body body)
-  (let ((gensyms (loop for n in names collect (gensym (concat-str "SUB-" (string n))))))
-       `(let (,,@(loop for g in gensyms for n in names collect ``(,,g ,,n)))
-          ,(let (,@(loop for n in names for g in gensyms collect `(,n ,g)))
-    `(let (,@(loop for g in gensyms for n in names collect `(,g (gensym ,(string n)))))
+  (let ((gensyms (loop :for n :in names :collect (gensym (concat-str "SUB-" (string n))))))
+    `(let (,@(loop :for g :in gensyms :for n :in names :collect `(,g (gensym ,(string n)))))
+       `(let (,,@(loop :for g :in gensyms :for n :in names :collect ``(,,g ,,n)))
+          ,(let (,@(loop :for n :in names :for g :in gensyms :collect `(,n ,g)))
              ,@body)))))
 
 ;;; Oct. 7th 2012, chiku
