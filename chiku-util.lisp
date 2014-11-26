@@ -1252,8 +1252,8 @@
 (defun fillin (lst len &optional fillin-value)
   (append lst (make-list (- len (length lst)) :initial-element fillin-value)))
 
-(defun mvidentity (&rest multiple-values)
-  (multiple-value-call #'values multiple-values))
+(defmacro mvidentity (&rest multiple-values)
+  `(multiple-value-call #'values ,@multiple-values))
 
 (defun mvconstantly (&rest args)
   (lambda (&rest garbages)
