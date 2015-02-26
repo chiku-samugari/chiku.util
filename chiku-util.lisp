@@ -1259,3 +1259,9 @@
   (lambda (&rest garbages)
     (declare (ignore garbages))
     (apply #'values args)))
+
+(defmacro splicing-tunnel (form)
+  " The control if the returnd value from FORM should be treated as a
+   single argument to LIST or multiple argument to LIST is transferred
+   to FORM."
+  `(multiple-value-list (mvidentity ,@form)))

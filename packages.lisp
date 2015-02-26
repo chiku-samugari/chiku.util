@@ -115,5 +115,6 @@
     :mvdo
     :mvdo*
     :mvpsetq
+    :splicing-tunnel
     ;; Variables
     :self :it :requisite :rec))
