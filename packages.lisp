@@ -115,6 +115,9 @@
     :mvdo
     :mvdo*
     :mvpsetq
+    :cons*
+    :keywordsymbolize
+    :conc-intern
     :splicing-tunnel
     ;; Variables
     :self :it :requisite :rec))

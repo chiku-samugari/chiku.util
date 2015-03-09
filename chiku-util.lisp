@@ -1260,6 +1260,27 @@
     (declare (ignore garbages))
     (apply #'values args)))
 
+(defun cons* (&rest args)
+  " A variation of LIST*. LIST* returns the given object when it
+   receives only one object. CONS* returns a list that includes the
+   given object in that case. CONS* returns NIL if no arguments are
+   given. For other cases, the behavior is same as that of LIST*."
+  (if (< (length args) 2)
+    args
+    (apply #'list* args)))
+
+(defun keywordsymbolize (sym)
+  " KEYWORDSYMBOLIZE interns a symbol that will have the same name as
+   the given symbol SYM into keyword package."
+  (intern (symbol-name sym) :keyword))
+
+(defun conc-intern (&rest strdsg-lst)
+  " CONC-INTERN interns a symbol whose name is the concatenation of all
+   the string designators in STRDSG-LST. String designators are first
+   stringified by CL:STRING function. The symbol is interned to the
+   current package."
+  (intern (apply #'concat-str (mapcar #'string strdsg-lst))))
+
 (defmacro splicing-tunnel (form)
   " The control if the returnd value from FORM should be treated as a
    single argument to LIST or multiple argument to LIST is transferred
