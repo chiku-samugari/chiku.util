@@ -1148,8 +1148,9 @@
     (setf *default-pathname-defaults*
           (make-pathname
             :directory (append (pathname-directory *default-pathname-defaults*)
-                               (drop (pathname-directory pname))
-                               (pathname-name pname))))))
+                               (aif (pathname-directory pname)
+                                 (drop it))
+                               (aand (pathname-name pname) (list it)))))))
 
 ;;; Aug. 27th 2013, chiku
 ;;; DOLISTS macro.
