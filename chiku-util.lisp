@@ -1115,8 +1115,8 @@
 ;;; named PACKAGE-SYMBOL-LIST that returns a list of specified
 ;;; symbol-type from the specified package, and other 3
 ;;; functions for each specific symbol type.
-(defmacro package-symbol-list (pkg symbol-type)
-  `(with-package-iterator (next ,pkg ,symbol-type)
+(defmacro package-symbol-list (pkgdsg symbol-type)
+  `(with-package-iterator (next ,pkgdsg ,symbol-type)
     (let (sym-lst)
       (loop
         (multiple-value-bind (more? s accessibility package)
@@ -1126,14 +1126,14 @@
             (push s sym-lst)
             (return sym-lst)))))))
 
-(defun package-internal-symbols (pkg)
-  (package-symbol-list pkg :internal))
+(defun package-internal-symbols (pkgdsg)
+  (package-symbol-list pkgdsg :internal))
 
-(defun package-external-symbols (pkg)
-  (package-symbol-list pkg :external))
+(defun package-external-symbols (pkgdsg)
+  (package-symbol-list pkgdsg :external))
 
-(defun package-inherited-symbols (pkg)
-  (package-symbol-list pkg :inherited))
+(defun package-inherited-symbols (pkgdsg)
+  (package-symbol-list pkgdsg :inherited))
 
 ;;; May. 04th 2013, chiku
 ;;; I'm not sure this is good way or even a proper way, but recently
