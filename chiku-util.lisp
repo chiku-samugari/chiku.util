@@ -1139,8 +1139,17 @@
 ;;; I'm not sure this is good way or even a proper way, but recently
 ;;; I use this code many times. When we find out a better way, it
 ;;; should be fixed immediately.
+;;; Mar. 11st 2015, chiku
+;;;  It does not work properly if pathspec was not tailed with a
+;;; directory separator. This function should recognize any inputs as
+;;; directory names.
 (defun change-directory (pathspec)
-  (setf *default-pathname-defaults* (merge-pathnames pathspec)))
+  (let ((pname (pathname pathspec)))
+    (setf *default-pathname-defaults*
+          (make-pathname
+            :directory (append (pathname-directory *default-pathname-defaults*)
+                               (drop (pathname-directory pname))
+                               (pathname-name pname))))))
 
 ;;; Aug. 27th 2013, chiku
 ;;; DOLISTS macro.
