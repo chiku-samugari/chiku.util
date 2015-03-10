@@ -1140,11 +1140,11 @@
 ;;; I use this code many times. When we find out a better way, it
 ;;; should be fixed immediately.
 ;;; Mar. 11st 2015, chiku
-;;;  It does not work properly if pathspec was not tailed with a
+;;;  It does not work properly if pathdsg was not tailed with a
 ;;; directory separator. This function should recognize any inputs as
 ;;; directory names.
-(defun change-directory (pathspec)
-  (let ((pname (pathname pathspec)))
+(defun change-directory (pathdsg)
+  (let ((pname (pathname pathdsg)))
     (setf *default-pathname-defaults*
           (make-pathname
             :directory (append (pathname-directory *default-pathname-defaults*)
