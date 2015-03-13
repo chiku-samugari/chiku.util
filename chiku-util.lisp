@@ -269,10 +269,6 @@
 (defun compose (fn-lst)
   (lambda (x) (reduce (lambda (a fn) (funcall fn a)) (cons x fn-lst))))
 
-(defun flatmap (result-type fn &rest lsts)
-  "Reduce the result of (map result-type fn lsts) by ``nconc.''"
-  (reduce #'nconc (apply #'map (cons result-type (cons fn lsts)))))
-
 ;;; May 13 2011, chiku
 ;;; And other functions, which were taken from OnLisp.
 ;;; MAP-> function

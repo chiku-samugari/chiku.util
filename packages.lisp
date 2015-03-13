@@ -13,7 +13,6 @@
     :filter
     :mklist
     ;:condlet-clauses-expand
-    :flatmap
     :group-tailed
     :filter-next-to
     :zip
