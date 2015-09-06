@@ -1190,14 +1190,14 @@
           :initial-value ()
           :from-end t))
 
-(defmacro list/det% (&body clauses)
+(defmacro list/det% (&body clauses) 
   (if clauses
-    (let ((head (car clauses)))
-      (if (eq (car head) t)
-        `(cons ,(cadr head) (list/det% ,@(cdr clauses)))
-        `(if ,(car head)
-           (cons ,(cadr head) (list/det% ,@(cdr clauses)))
-           (list/det% ,@(cdr clauses)))))))
+    (destructuring-bind ((det val) . tl) clauses
+      (if (eq det t)
+        `(cons ,val (list/det% ,@tl))
+        `(if ,det
+           (cons ,val (list/det% ,@tl))
+           (list/det% ,@tl))))))
 
 (defmacro list/det (&body clauses)
   (if (< (length clauses) 10)
