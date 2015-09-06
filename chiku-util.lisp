@@ -492,7 +492,7 @@
 ;;; Current version explains the algorithm pretty well, even though
 ;;; it might perform bad.
 (defun group-filter (n fn lst)
-  (filter (p #'apply fn) (group lst n)))
+  (filter (p (apply fn)) (group lst n)))
 
 ;;; Sep 30th 2011, chiku
 ;;; LISTFORK-IF function
@@ -598,7 +598,7 @@
   (let ((head-pos (position-list head-mark seq :key key :test test)))
     (values
       (mapcar
-        (p #'subseq seq)
+        (p (subseq seq))
         (if mark-discard? (mapcar #'1+ head-pos) head-pos)
         (drop (append1 head-pos (length seq))))
       (subseq seq 0 (car head-pos)))))
@@ -607,7 +607,7 @@
   (let ((head-pos (position-if-list pred seq :key key)))
     (values
       (mapcar
-        (p #'subseq seq)
+        (p (subseq seq))
         (if mark-discard? (mapcar #'1+ head-pos) head-pos)
         (drop (append1 head-pos (length seq))))
       (subseq seq 0 (car head-pos)))))
@@ -619,7 +619,7 @@
   (let ((tail-pos (position-list tail-mark seq :key key :test test)))
     (values
       (mapcar
-        (p #'subseq seq)
+        (p (subseq seq))
         (cons 0 (mapcar #'1+ tail-pos))
         (if mark-discard?  tail-pos (mapcar #'1+ tail-pos)))
       (if tail-pos (subseq seq (1+ (last1 tail-pos))) seq))))
@@ -628,7 +628,7 @@
   (let ((tail-pos (position-if-list pred seq :key key)))
     (values
       (mapcar
-        (p #'subseq seq)
+        (p (subseq seq))
         (cons 0 (mapcar #'1+ tail-pos))
         (if mark-discard?  tail-pos (mapcar #'1+ tail-pos)))
       (if tail-pos (subseq seq (1+ (last1 tail-pos))) seq))))
@@ -801,7 +801,7 @@
                    val (rec-lsts (mapcar #'cdr lsts))))))
            (rec-seqs (seqs)
              (if (not (find 0 seqs :key #'length))
-               (let ((val (apply gen-fn (mapcar (p #'elt _ 0) seqs))))
+               (let ((val (apply gen-fn (mapcar (p (elt _ 0)) seqs))))
                  (if (funcall check-key val)
                    val (rec-seqs (mapcar #'drop seqs)))))))
     (if (eql (type-of seq) 'cons)
@@ -834,9 +834,9 @@
 (defun int-compositions (n &key (len) (parts-max n) (parts-min 1))
   (labels ((rec  (n max lst)
              (cond ((= n 0) lst)
-                   ((= max 1) (mapcar (p #'cons n) lst))
+                   ((= max 1) (mapcar (p (cons n)) lst))
                    (t (mapcan
-                        (lambda (i) (rec (- n i) (1- max) (mapcar (p #'cons i) lst)))
+                        (lambda (i) (rec (- n i) (1- max) (mapcar (p (cons i)) lst)))
                         (iota n :start 1))))))
     (let ((parts-max (if len len parts-max)) (parts-min (if len len parts-min)))
       (remove-if-not (lambda (x) (<= parts-min (length x)))
@@ -858,7 +858,7 @@
 (defmacro >case (expr &body clauses)
   (with-gensyms (v)
     `(let ((,v ,expr))
-       (cond ,@(mapcar (p #'>case-cl-expand v) clauses)))))
+       (cond ,@(mapcar (p (>case-cl-expand v)) clauses)))))
 
 ;;; July 30th 2012, chiku
 ;;; It's ported from LL(k) project.
