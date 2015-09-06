@@ -1193,7 +1193,7 @@
 (defmacro list/det% (&body clauses) 
   (if clauses
     (destructuring-bind ((det val) . tl) clauses
-      (if (eq det t)
+      (if (eq det t) ; Not just DET. I want to limit this optimization.
         `(cons ,val (list/det% ,@tl))
         `(if ,det
            (cons ,val (list/det% ,@tl))
