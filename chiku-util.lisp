@@ -198,7 +198,7 @@
 ;;; changed.
 (defun takewhile (pred seq &rest args &key from-end (start 0) end key)
   (declare (ignore from-end start end key))
-  (subseq seq 0 (apply #'position-if (complement pred) seq args)))
+  (subseq seq start (apply #'position-if (complement pred) seq args)))
 
 ;;; Oct. 25th 2012, chiku
 ;;; Happy birthday!
