@@ -1095,7 +1095,7 @@
 (defmacro wrap-if (test &body form)
   (with-gensyms (x)
     `(macrolet ((requisite (,x) ,x))
-      (if ,test
+       (if ,test
          (progn ,@form)
          (progn ,(search-protected-code 'requisite form))))))
 
