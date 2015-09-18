@@ -1,5 +1,5 @@
 (defpackage :chiku.util
-  (:use :cl :papply)
+  (:use :cl :papply :abackquote)
   (:export
     :map-int-compositions
     ;:extract-vars

@@ -296,17 +296,6 @@
   (defun map1-n (fn n)
     (mapa-b fn 1 n)))
 
-;;; Nov. 22nd 2012, chiku
-;;; #` reader macro from ``Let Over Lambda.''
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun |#`-reader| (strm c n)
-    (declare (ignore c))
-    `(lambda ,(map0-n (lambda (n) (intern (format nil "A~a" n))) (1- (or n 1)))
-       ,(read (make-concatenated-stream (make-string-input-stream "`") strm)
-              t nil t)))
-
-  (set-dispatch-macro-character #\# #\` #'|#`-reader|))
-
 ;;; show-hash-table function
 ;;; Why there is no tiny function to list up
 ;;; and show me the contents  of a hash table?
