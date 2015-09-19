@@ -58,7 +58,6 @@
     :stride-mapcar
     :append1
     :shorter-or-equal
-    :|#`-reader|
     :wrap-unless
     :till
     :mapa-b
