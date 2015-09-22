@@ -15,6 +15,11 @@
               `(,(car name) (gensym (or ,(cadr name) "G"))))))
      ,@body))
 
+(defmacro letitbe (expr &body body)
+  `(let ((it ,expr))
+     ,@body
+     it))
+
 (defmacro aif (test-form then-form &optional else-form)
   (with-gensyms (tmp)
     `(let ((,tmp ,test-form))
