@@ -117,6 +117,6 @@
     :keywordsymbolize
     :conc-intern
     :splicing-tunnel
-    :letitbe
+    :let-it-be
     ;; Variables
     :self :it :requisite :rec))

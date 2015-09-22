@@ -15,7 +15,7 @@
               `(,(car name) (gensym (or ,(cadr name) "G"))))))
      ,@body))
 
-(defmacro letitbe (expr &body body)
+(defmacro let-it-be (expr &body body)
   `(let ((it ,expr))
      ,@body
      it))
