@@ -1274,12 +1274,21 @@
    the given symbol SYM into keyword package."
   (intern (symbol-name sym) :keyword))
 
-(defun conc-intern (&rest strdsg-lst)
+(defun xstringify (strxdsg)
+  " STRXDSG is a string extended designator which is a string designator
+   or a number. The function uses CL:STRING in the case of a string
+   designator and CHIKU.UTIL:ITOA in the case of a number."
+  (cond ((numberp strxdsg) (itoa strxdsg))
+        (t (string strxdsg))))
+
+(defun conc-intern (&rest strxdsg-lst)
   " CONC-INTERN interns a symbol whose name is the concatenation of all
-   the string designators in STRDSG-LST. String designators are first
-   stringified by CL:STRING function. The symbol is interned to the
-   current package."
-  (intern (apply #'concat-str (mapcar #'string strdsg-lst))))
+   the string extended designators in STRXDSG-LST. The symbol is
+   interned to the current package.
+    A string extended designator is a string designator or a number.
+   String designators are stringified by CL:STRING function while a
+   number is stringified by CHIKU.UTIL:ITOA."
+  (intern (apply #'concat-str (mapcar #'xstringify strxdsg-lst))))
 
 (defmacro splicing-tunnel (form)
   " The control if the returnd value from FORM should be treated as a

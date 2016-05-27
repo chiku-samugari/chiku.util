@@ -118,5 +118,6 @@
     :conc-intern
     :splicing-tunnel
     :let-it-be
+    :xstringify
     ;; Variables
     :self :it :requisite :rec))
