@@ -193,7 +193,7 @@
 ;;; (As you know, this function is not in standard C.)
 ;;; The behavior is same as itoa.;}}}
 (defun ITOA (num)
-  (format nil "~a" num))
+  (prin1-to-string num))
 
 ;;; TAKEWHILE function
 ;;; I took this function from Haskell.
