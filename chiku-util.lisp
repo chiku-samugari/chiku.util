@@ -3,6 +3,12 @@
 
 (proclaim '(inline last1 append1))
 
+;;; Previously called CONCAT-STR. That is still available because it is
+;;; bothering to change all the appearance.
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun concat (&rest strs)
+    " Handy form of (CONCATENATE 'STRING ...)."
+    (apply #'concatenate 'string strs)))
 ;;; WITH-GENSYMS macro
 ;;; I took it from "Practical Common Lisp".
 ;;; Oct. 09th 2013, chiku
@@ -166,8 +172,8 @@
 ;;; Should it be written as a macro? I'm not sure ...;}}}
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun concat-str (&rest strs)
+    (warn "CONCAT-STR is obsolete. Use CHIKU.UTIL:CONCAT instead.")
     (apply #'concatenate (cons 'string strs))))
-
 
 ;;; FLATTEN function;{{{
 ;;; I took this name and concept from OnLisp.
