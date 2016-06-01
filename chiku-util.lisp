@@ -1059,16 +1059,16 @@
 
 (defun condlet-clauses-expand (clauses vars bodyfn)
   `(cond ,@(mapcar (lambda (cl)
-                    `(,(car cl) (let ,(expand-binds (cadr cl) vars)
-                                  (,bodyfn ,@(mapcar #'cdr vars)))))
-                  clauses)))
+                     `(,(car cl) (let ,(expand-binds (cadr cl) vars)
+                                   (,bodyfn ,@(mapcar #'cdr vars)))))
+                   clauses)))
 
 (defun expand-binds (binds vars)
   (mapcar (lambda (var)
             (aif (find (car var) binds :key #'car)
               (cons (cdr var) (cdr it))
               (cdr var)))
-            vars))
+          vars))
 
 (defmacro condlet (clauses &body body)
   (with-gensyms (bodyfn)
@@ -1312,6 +1312,6 @@
 
 (defmacro splicing-tunnel (form)
   " The control if the returnd value from FORM should be treated as a
-   single argument to LIST or multiple argument to LIST is transferred
+   single argument to LIST or multiple arguments to LIST is transferred
    to FORM."
   `(multiple-value-list (mvidentity ,@form)))
