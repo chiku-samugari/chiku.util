@@ -688,7 +688,7 @@
            (str ""))
         ((null line) str)
         (unless (funcall omit-pred line)
-          (setf str (concat-str str line (string #\newline))))))))
+          (setf str (concat str line (string #\newline))))))))
 
 ;;; Jan. 27th 2012, chiku
 ;;; AFTER function (from On Lisp) returns non-nil value in the case that,
@@ -1308,7 +1308,7 @@
     A string extended designator is a string designator or a number.
    String designators are stringified by CL:STRING function while a
    number is stringified by CHIKU.UTIL:ITOA."
-  (intern (apply #'concat-str (mapcar #'xstringify strxdsg-lst))))
+  (intern (apply #'concat (mapcar #'xstringify strxdsg-lst))))
 
 (defmacro splicing-tunnel (form)
   " The control if the returnd value from FORM should be treated as a
