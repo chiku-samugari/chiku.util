@@ -119,5 +119,6 @@
     :splicing-tunnel
     :let-it-be
     :xstringify
+    :gensym[]
     ;; Variables
     :self :it :requisite :rec))

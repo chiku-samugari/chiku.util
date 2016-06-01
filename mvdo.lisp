@@ -83,8 +83,8 @@
                    2
                    (lambda (var)
                      (if (consp var)
-                       (mapcar #'(gensym (symbol-name _)) var)
-                       (gensym (symbol-name var))))
+                       (mapcar #'gensym[] var)
+                       (gensym[] var)))
                    var-value-lst)))
     (labels ((rec (vars update-forms)
                (if vars
