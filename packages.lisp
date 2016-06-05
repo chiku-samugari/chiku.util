@@ -68,7 +68,7 @@
     :group-headed-if
     :str<-textfile
     ;:search-protected-code
-    :concat-str
+    :concat
     :package-inherited-symbols
     :with-tree-leaves
     :leaf
