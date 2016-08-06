@@ -681,14 +681,15 @@
 ;;; This is a lax function to access a text file.
 (defun str<-textfile (filename &optional (omit-pred #'null))
   " The parameter ``omit-pred'' is used as a predicator for line-wise
-    checking of taking that line or not."
+   checking of taking that line or not."
   (with-open-file (in filename :direction :input)
     (when in
-      (do ((line (read-line in nil nil) (read-line in nil nil))
-           (str ""))
-        ((null line) str)
-        (unless (funcall omit-pred line)
-          (setf str (concat str line (string #\newline))))))))
+      (with-output-to-string (out)
+        (do ((line (read-line in nil nil) (read-line in nil nil)))
+          ((null line) out)
+          (unless (funcall omit-pred line)
+            (write-string line out)
+            (terpri out)))))))
 
 ;;; Jan. 27th 2012, chiku
 ;;; AFTER function (from On Lisp) returns non-nil value in the case that,
