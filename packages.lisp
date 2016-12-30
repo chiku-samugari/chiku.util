@@ -93,6 +93,7 @@
     :denotative-sort
     :itoa
     :mapleaf
+    :mapbranch
     :listfork-if
     :argmax
     :argmin

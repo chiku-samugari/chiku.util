@@ -26,3 +26,17 @@
 
 (defmacro with-tree-leaves (tree test-form result-form)
   `(mapleaf (lambda (leaf) (if ,test-form ,result-form leaf)) ,tree))
+
+(defun mapbranch (picker fn tree &optional (leaf-proc #'identity) (leaf-pred #'atom))
+    "Walk on a tree that implemented as a multi-level list. All elements that
+     returns non-NIL value when applied LEAF-PRED are leaves and applied
+     LEAF-PROC.In addition, elements that return non-NIL value when applied
+     PICKER are applied the given function FN.
+      If LEAF-PROC will never called, it might be better to adopt MAPLEAF.
+     (MAPBRANCH #'FOO #'BAR TREE) is equal to (mapleaf #'BAR TREE #'FOO) in
+     that case."
+  (labels ((rec (node)
+             (cond ((funcall leaf-pred node) (funcall leaf-proc node))
+                   ((funcall picker node) (funcall fn node))
+                   (t (mapcar #'rec node)))))
+    (rec tree)))
