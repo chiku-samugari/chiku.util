@@ -339,20 +339,6 @@
         (format stream "~a -> ~a~%" k v))
     ht))
 
-;;; MAPTREE function;{{{
-;;; Walk on tree that implemented as multi-level list.
-;;; Each element of tree will be checked by the function "pred".
-;;; All elements that will have passed this check will be recognized as leaf of this tree.
-;;; Apply a function that will be offered as argument "func" to each leave of this tree.;}}}
-(eval-when (:load-toplevel :compile-toplevel :execute)
-  (defun maptree (func tree &key (pred #'atom))
-    (if (funcall pred tree)
-      (funcall func tree)
-      (mapcar (lambda (x) (maptree func x :pred pred)) tree))))
-
-(defmacro with-tree-leaves (tree test-form result-form)
-  `(maptree (lambda (leaf) (if ,test-form ,result-form leaf)) ,tree))
-
 ;;; July 25th 2012, chiku
 ;;; Some macros from ``On Lisp.''
 ;;; I typed it during the implementation of LL(k) parser but finally

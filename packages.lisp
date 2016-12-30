@@ -92,7 +92,7 @@
     :change-directory
     :denotative-sort
     :itoa
-    :maptree
+    :mapleaf
     :listfork-if
     :argmax
     :argmin

@@ -12,5 +12,6 @@
   :long-description "A collection of utilities."
   :serial t
   :components ((:file "packages")
+               (:file "map-tree")
                (:file "chiku-util")
                (:file "mvdo")))
