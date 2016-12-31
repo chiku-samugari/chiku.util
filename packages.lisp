@@ -122,5 +122,6 @@
     :let-it-be
     :xstringify
     :gensym[]
+    :dbind
     ;; Variables
     :self :it :requisite :rec))

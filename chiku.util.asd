@@ -13,5 +13,6 @@
   :serial t
   :components ((:file "packages")
                (:file "map-tree")
+               (:file "dbind")
                (:file "chiku-util")
                (:file "mvdo")))
