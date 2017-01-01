@@ -123,5 +123,7 @@
     :xstringify
     :gensym[]
     :dbind
+    :mvbind1
+    :mvbind
     ;; Variables
     :self :it :requisite :rec))
