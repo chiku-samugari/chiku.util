@@ -22,4 +22,4 @@
     `(destructuring-bind ,lambda-list
        ,expression
        (declare (ignore ,@sealed-vars))
-       (progn ,@body))))
+       ,@body)))
