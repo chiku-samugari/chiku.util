@@ -6,7 +6,7 @@
   :description "Utility"
   :long-description "A collection of utilities."
   :serial t
-  :depends-on (:papply)
+  :depends-on (:azuki :papply)
   :components ((:file "packages")
                (:file "map-tree")
                (:file "dbind")
