@@ -6,6 +6,7 @@
   :description "Utility"
   :long-description "A collection of utilities."
   :serial t
+  :depends-on (:papply)
   :components ((:file "packages")
                (:file "map-tree")
                (:file "dbind")
