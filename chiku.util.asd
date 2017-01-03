@@ -9,6 +9,6 @@
   :depends-on (:azuki :papply)
   :components ((:file "packages")
                (:file "map-tree")
-               (:file "dbind")
                (:file "chiku-util")
+               (:file "dbind")
                (:file "mvdo")))
