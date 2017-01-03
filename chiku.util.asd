@@ -1,8 +1,3 @@
-(defpackage :chiku.util.asd
-  (:use :cl :asdf))
-
-(in-package :chiku.util.asd)
-
 (defsystem :chiku.util
   :version "0.6.0"
   :maintainer "Takehiko Nawata"
