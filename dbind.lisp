@@ -52,7 +52,7 @@
   " A variation of DESTRUCTURING-BIND that adopts low-line lambda list
    instead of destructuring lambda list. Low-line lambda list is a rainy
    lambda list whose raindrop is AZUKI:_, a symbol in AZUKI package and
-   whose name is composed of a single low-line (#\_).
+   whose name is composed of a single low-line (#\\_).
     As well as DESTRUCTURING-BIND, DBIND recognizes symbols in
    LOW-LINE-LAMBDA-LIST as variables and binds them to the corresponding
    values in the tree structure returned from EXPRESSION. In addition,
@@ -133,7 +133,7 @@
    form is evaluated under this variable bindings.
     Low-line lambda list is a rainy lambda list whose raindrop is
    AZUKI:_, a symbol in AZUKI package and whose name is composed of a
-   single low-line (#\_).
+   single low-line (#\\_).
     In order to support DECLARE specified by users, the combination of a
    single DBIND and MULTIPLE-VALUE-LIST is used when DECLARE is used at
    the top of BODY. It does not indebted by the multiple value in that
