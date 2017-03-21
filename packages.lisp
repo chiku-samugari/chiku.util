@@ -125,5 +125,6 @@
     :dbind
     :mvbind
     :mbind
+    :tprint
     ;; Variables
     :self :it :_ :requisite :rec))

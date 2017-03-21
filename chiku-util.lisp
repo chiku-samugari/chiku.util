@@ -1302,3 +1302,12 @@
    single argument to LIST or multiple arguments to LIST is transferred
    to FORM."
   `(multiple-value-list (mvidentity ,@form)))
+
+(defun tprint (tag obj &optional (separator ":~20T"))
+  "Print TAG, SEPARATOR, OBJ, and a Newline by FORMAT and returns OBJ.
+   ~A is used to print TAG while ~S is used to print OBJ. FORMAT
+   formatters are availale for SEPARATOR."
+  (format t (concat "~A" separator "~S~%") tag obj)
+  obj)
+
+(tprint :tag 'abc)
