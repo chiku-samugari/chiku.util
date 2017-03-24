@@ -1309,5 +1309,3 @@
    formatters are availale for SEPARATOR."
   (format t (concat "~A" separator "~S~%") tag obj)
   obj)
-
-(tprint :tag 'abc)
