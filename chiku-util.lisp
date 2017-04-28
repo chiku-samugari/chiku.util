@@ -943,6 +943,19 @@
   (if args
     (find (apply #'min (mapcar key args)) args :key key)))
 
+(defun maximize (seq test &optional (key #'identity))
+  "The extended version of argmax (in math) that has the TEST function.
+   CHIKU.UTIL:ARGMAX should be used if TEST is not needed and therefore
+   it is a required parameter. Although KEY is not needed from the
+   principall view point, it contributes for the clearer code in some
+   cases. CL:SORT is used as the reference to decide the order of
+   parameters.
+   An error is raised if the length of SEQ is zero."
+  (reduce #'(if (funcall test (funcall key a0) (funcall key a1))
+              a1
+              a0)
+          seq))
+
 ;;; Oct. 7th 2012, chiku
 ;;; A variation of LONGER function from On Lisp.  The definition
 ;;; of LONGER is very smart and beautiful. On the other hand, when

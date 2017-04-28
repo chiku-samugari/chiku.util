@@ -126,5 +126,6 @@
     :mvbind
     :mbind
     :tprint
+    :maximize
     ;; Variables
     :self :it :_ :requisite :rec))
