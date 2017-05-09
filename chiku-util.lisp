@@ -1322,3 +1322,19 @@
    formatters are availale for SEPARATOR."
   (format t (concat "~A" separator "~S~%") tag obj)
   obj)
+
+(defun imapcar (fn lst &rest more-lists)
+  " A variation of MAPCAR function that the index of the item is given
+   to FN as its 1st argument. It does not mean that the order of FN
+   application is defined. The 2nd argument of FN is taken from LST and
+   the successive arguments are taken from MORE-LISTS."
+  (if more-lists
+    (labels ((rec (i lsts acc)
+               (if (every (complement #'endp) lsts)
+                 (rec (1+ i) (mapcar #'cdr lsts)
+                      (cons (apply fn i (mapcar #'car lsts)) acc))
+                 acc)))
+      (nreverse (rec 0 (cons lst more-lists) nil)))
+    (loop :for item :in lst
+          :for i := 0 :then (1+ i)
+          :collect (funcall fn i item))))

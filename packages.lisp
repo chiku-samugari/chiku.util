@@ -127,5 +127,6 @@
     :mbind
     :tprint
     :maximize
+    :imapcar
     ;; Variables
     :self :it :_ :requisite :rec))
