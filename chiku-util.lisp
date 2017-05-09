@@ -594,10 +594,10 @@
 ;;; Jan. 9th 2012, chiku
 ;;; Happy New Year!
 ;;; I've decided to change the name of parameter ``head-discard''
-;;; because this name seems as if this parameter controled if the
-;;; very first element that was not headed by the given mark
+;;; because this name seems as if this parameter controls if very the
+;;; first element that was not headed by the given mark
 ;;; (``head'' parameter) should be discarded or not. Thus, I decided
-;;; tr change the names of parameter ``head'' to ``head-mark'' and
+;;; to change the names of parameter ``head'' to ``head-mark'' and
 ;;; ``head-dscard'' to ``discard-mark?'', respectively.
 ;;; Additionally, I decided to return the very first elements which
 ;;; is not headed by mark as a 2nd value of this function.
