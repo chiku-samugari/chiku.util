@@ -945,12 +945,11 @@
 
 (defun maximize (seq test &optional (key #'identity))
   "The extended version of argmax (in math) that has the TEST function.
-   CHIKU.UTIL:ARGMAX should be used if TEST is not needed and therefore
-   it is a required parameter. Although KEY is not needed from the
-   principall view point, it contributes for the clearer code in some
-   cases. CL:SORT is used as the reference to decide the order of
-   parameters.
-   An error is raised if the length of SEQ is zero."
+   Although KEY is not needed from the principall view point, it
+   contributes for the clearer code in some cases. CL:SORT is used as
+   the reference to decide the order of parameters.
+
+   An error will be raised if the length of SEQ is zero."
   (reduce #'(if (funcall test (funcall key a0) (funcall key a1))
               a1
               a0)
