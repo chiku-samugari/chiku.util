@@ -60,6 +60,12 @@
         ((null (cdr forms)) (car forms))
         (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
+(defmacro with-functions ((&rest function-application-forms) &body body)
+  `(labels ,(mapcar #`(,(car a0) ,(cdr a0)
+                        (funcall ,@a0))
+                    function-application-forms)
+     ,@body))
+
 ;;; LAST1 function
 ;;; I took this name from "On-Lisp".
 (defun last1 (lst) (car (last lst)))

@@ -128,5 +128,6 @@
     :tprint
     :maximize
     :imapcar
+    :with-functions
     ;; Variables
     :self :it :_ :requisite :rec))
