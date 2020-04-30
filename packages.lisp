@@ -130,5 +130,7 @@
     :imapcar
     :with-functions
     :projected-find-if
+    :maximals
+    :seqmaximals
     ;; Variables
     :self :it :_ :requisite :rec))

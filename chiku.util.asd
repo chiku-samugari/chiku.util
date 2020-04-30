@@ -10,5 +10,6 @@
   :components ((:file "packages")
                (:file "map-tree")
                (:file "chiku-util")
+               (:file "maximization")
                (:file "dbind")
                (:file "mvdo")))
