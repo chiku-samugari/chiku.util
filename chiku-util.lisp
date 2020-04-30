@@ -930,6 +930,19 @@
               ,@body))
      #'self))
 
+(defun projected-find-if (pred key sequence &optional (failed nil))
+  "The projected value of one of the SEQ's element that returns T when
+   applied PRED is returned. FAILED is returned if no such element
+   exists, which is defaulted to NIL.
+
+   Use CL:FIND-IF instead if KEY is not needed."
+  (with-functions ((pred x) (key x))
+    (do ((seq sequence (drop seq)))
+      ((zerop (length seq)) failed)
+      (let ((projected (key (elt seq 0))))
+        (if (pred projected)
+          (return projected))))))
+
 ;;; Oct. 7th 2012, chiku
 ;;; KEYMAX function
 ;;; Apr. 23rd 2014, chiku

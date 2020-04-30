@@ -129,5 +129,6 @@
     :maximize
     :imapcar
     :with-functions
+    :projected-find-if
     ;; Variables
     :self :it :_ :requisite :rec))
