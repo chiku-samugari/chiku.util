@@ -1,6 +1,14 @@
 ;;;; chiku-util.lisp : I defined some useful utilities in this file.
 (in-package :chiku.util)
 
+;;; LAST1 function
+;;; I took this name from "On-Lisp".
+(defun last1 (lst) (car (last lst)))
+
+;;; APPPEND1
+;;; I took this function from "On Lisp".
+(defun append1 (lst obj) (append lst (list obj)))
+
 (proclaim '(inline last1 append1))
 
 ;;; Previously called CONCAT-STR. That is still available because it is
@@ -65,14 +73,6 @@
                         (funcall ,@a0))
                     function-application-forms)
      ,@body))
-
-;;; LAST1 function
-;;; I took this name from "On-Lisp".
-(defun last1 (lst) (car (last lst)))
-
-;;; APPPEND1
-;;; I took this function from "On Lisp".
-(defun append1 (lst obj) (append lst (list obj)))
 
 ;;; CHECK&STRING= function;{{{
 ;;; This function checks if all 2 arguments
