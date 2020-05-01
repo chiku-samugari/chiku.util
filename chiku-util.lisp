@@ -88,6 +88,17 @@
         (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
 (defmacro with-functions ((&rest templates) &body body)
+  "Usage:
+     (with-functions (f g) body)
+     (with-functions ((f x) (g x y)) body)
+
+   `f` and `g` here are variables bound to functions and these symbols
+  are made be local functions in BODY. These are still available as
+  variables, too. The second form is not only explanatory but also
+  terser than the first form. Nested form is not acceptable as elements
+  of TEMPLATES. Multiple times use of one or more symbols in an element
+  of TEMPLATES is also not accepted. CL:LABELS should be used for such a
+  complexed case."
   `(labels ,(mapcar #'(if (symbolp a0)
                         `(,a0 (&rest args) (apply ,a0 args))
                         `(,(car a0) ,(cdr a0) (funcall ,@a0)) )
