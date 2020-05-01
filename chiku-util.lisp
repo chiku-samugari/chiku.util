@@ -87,10 +87,11 @@
         ((null (cdr forms)) (car forms))
         (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
-(defmacro with-functions ((&rest function-application-forms) &body body)
-  `(labels ,(mapcar #`(,(car a0) ,(cdr a0)
-                        (funcall ,@a0))
-                    function-application-forms)
+(defmacro with-functions ((&rest templates) &body body)
+  `(labels ,(mapcar #'(if (symbolp a0)
+                        `(,a0 (&rest args) (apply ,a0 args))
+                        `(,(car a0) ,(cdr a0) (funcall ,@a0)) )
+                    templates)
      ,@body))
 
 ;;; CHECK&STRING= function;{{{
