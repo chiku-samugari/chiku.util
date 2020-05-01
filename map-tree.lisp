@@ -24,8 +24,8 @@
       (funcall fn tree)
       (mapcar (lambda (node) (mapleaf fn node pred)) tree))))
 
-(defmacro with-tree-leaves (tree test-form result-form)
-  `(mapleaf (lambda (leaf) (if ,test-form ,result-form leaf)) ,tree))
+(defmacro with-tree-leaves (tree test-form &body body)
+  `(mapleaf (lambda (leaf) (if ,test-form (progn ,@body) leaf)) ,tree))
 
 (defun mapbranch (picker fn tree &optional (leaf-proc #'identity) (leaf-pred #'atom))
     "Walk on a tree that implemented as a multi-level list. All elements that
