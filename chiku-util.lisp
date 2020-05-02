@@ -384,16 +384,18 @@
        (or ,@(mapcar (lambda (c) `(funcall ,fn-var ,c)) choices)))))
 
 (defmacro curry (fn)
-  " curry fn => function;{{{
-    fn : a function object
-    function : a function object
-    This macro generates the curried version of function object ``fn.''
-    Actually, the generated function object is not fully curried because only the first
-    argument of ``fn'' becames partial-applicable. The fully currying requires the arity,
-    but this information seems not to be available for the user. Although we can write
-    a function (or macro) which returns the arity, I don't implement it yet because this
-    version is useful enough for me.
-  ;}}}"
+  " curry fn => function
+    fn: a function object
+    function: a function object
+
+   This macro generates the curried version of function object ``fn.''
+   Actually, the generated function object is not fully curried because
+   only the first argument of ``fn'' becames partial-applicable. The
+   fully currying requires the arity, but this information seems not to
+   be available for the user. Although we can write a function
+   (or a macro) which returns the arity, I don't implement it yet
+   because this version is useful enough for me.
+   "
   (with-gensyms (x)
     `(lambda (,x)
        (papply ,fn ,x))))
@@ -430,19 +432,19 @@
 ;;; Since I currently have no critical criteria about this point, I
 ;;; take 1.). 1.) seems more similar to the MAPCAR family's parameter order.
 (defun stride-maplist (stride fn lst)
-  " stride-maplist stride fn lst => list;{{{
-    stride : a positive integer
-    fn : a function object
-    lst : a list
+  " stride-maplist stride fn lst => list
+    stride: a positive integer
+    fn: a function object
+    lst: a list
 
-    The behavior of this function is similar to ``maplist'' function.
-    The only difference is, this function skips n elements on each
-    iteration. Here, Let n be the value of ``stride.''
+   The behavior of this function is similar to ``maplist'' function.
+   The only difference is, this function skips n elements on each
+   iteration. Here, Let n be the value of ``stride.''
 
-    If stride is 1,  then the behavior is same to MAPLIST.
+   If stride is 1,  then the behavior is same to MAPLIST.
 
-    ex.) (stride-maplist 2 #'car (iota 10)) -> (0 2 4 6 8)
-  ;}}}"
+   ex.) (stride-maplist 2 #'car (iota 10)) -> (0 2 4 6 8)
+  "
   (labels ((rec (lst acc)
              (if (<= stride (length lst))
                (rec (drop lst stride) (cons (funcall fn lst) acc))
@@ -461,19 +463,19 @@
 ;;; Change the order of parameters. For more detail, please take a
 ;;; glance at the comment of MAPLIST.
 (defun stride-mapcon (stride fn lst)
-  " stride-mapcon stride fn lst => list;{{{
-    stride : a positive integer
-    fn : a function object
-    lst : a list
+  " stride-mapcon stride fn lst => list
+    stride: a positive integer
+    fn: a function object
+    lst: a list
 
-    The behavior of this function is similar to ``MAPCON'' function.
-    The only difference is, this function skips n elements on each
-    iteration. Here, Let n be the value of ``stride.''
+   The behavior of this function is similar to ``MAPCON'' function.
+   The only difference is, this function skips n elements on each
+   iteration. Here, Let n be the value of ``stride.''
 
-    If stride is 1, then the behavior is same to MAPCON.
+   If stride is 1, then the behavior is same to MAPCON.
 
-    ex.) (stride-mapcon 2 #'copy-list (iota 4)) -> (0 1 2 3 2 3)
-  ;}}}"
+   ex.) (stride-mapcon 2 #'copy-list (iota 4)) -> (0 1 2 3 2 3)
+  "
   (labels ((rec (lst acc)
              (if (<= stride (length lst))
                (rec (drop lst stride) (cons (funcall fn lst) acc))
@@ -531,28 +533,27 @@
 ;;; Sep 30th 2011, chiku
 ;;; LISTFORK-IF function
 (defun listfork-if (forkp lst)
-  " listfork-if forkp lst => list of list ;{{{
-    forkp : a function object (predicator)
-    lst : list
+  " listfork-if forkp lst => list of list
+    forkp: a function object (predicator)
+    lst: list
 
-    All the element in ``lst'' that returns T to ``forkp'' triggers
-    the fork of copying ``lst.'' Let me call such element be
-    ``fork-trigger.'' Both of the list which include the fork-trigger
-    and doesn't include fork-trigger will be generated. The element
-    which is not a fork-trigger, will just be included.
-    As a result, each element of result list expresses one certain
-    include-or-not pattern of fork-trigger.
+   All the element in ``lst'' that returns T to ``forkp'' triggers
+   the fork of copying ``lst.'' Let me call such element be
+   ``fork-trigger.'' Both of the list which include the fork-trigger
+   and doesn't include fork-trigger will be generated. The element
+   which is not a fork-trigger, will just be included.
+   As a result, each element of result list expresses one certain
+   include-or-not pattern of fork-trigger.
 
-    So to speak, the element of the result list will include ALL the
-    leaves of the binary tree whose internal node is corresponding to
-    each fork-trigger in ``lst.'' One branch is the branch which
-    decides to include the fork-trigger, while the another branch
-    decides to do not include the fork-trigger.
+   So to speak, the element of the result list will include ALL the
+   leaves of the binary tree whose internal node is corresponding to
+   each fork-trigger in ``lst.'' One branch is the branch which
+   decides to include the fork-trigger, while the another branch
+   decides to do not include the fork-trigger.
 
-    ex.)
-    (listfork-if #'symbolp (list 1 2 'a 3 'b))
-    -> ((1 2 A 3 B) (1 2 3 B) (1 2 A 3) (1 2 3))
-  ;}}}"
+   ex.) (listfork-if #'symbolp (list 1 2 'a 3 'b))
+        ; => ((1 2 A 3 B) (1 2 3 B) (1 2 A 3) (1 2 3))
+  "
   (labels ((rec (lst)
              (if lst
                (mapcan (lambda (x)
@@ -741,32 +742,32 @@
 ;;; the ``seq's'' element that doesn't appear in ``order-lst.''
 ;;; Possible choises are discard, error, nil.
 (defun denotative-sort (order-lst seq &key key test)
-  " denotative-sort order-lst seq &key key test => sorted-seq ;{{{
-    order-lst : a list
-    seq : a sequence (this sequence will be destructively changed!)
-    key : a designator for a function of one argument
-    key : a designator for a function of two arguments
-    sorted-seq : a sequence
+  " denotative-sort order-lst seq &key key test => sorted-seq
+    order-lst: a list
+    seq: a sequence (this sequence will be destructively changed!)
+    key: a designator for a function of one argument
+    key: a designator for a function of two arguments
+    sorted-seq: a sequence
 
-    This function changes the position of each element in ``seq''
-    by referring ``order-lst.'' The elements in the ``sorted-seq''
-    are put in the same order to those of ``order-lst.''
+   This function changes the position of each element in ``seq''
+   by referring ``order-lst.'' The elements in the ``sorted-seq''
+   are put in the same order to those of ``order-lst.''
 
-    If the keyword parameter ``key'' is given, then the result of
-    the ``key'' is used as sort keys of each element. If ``key'' is
-    not given, then the element it self
-    is used.
+   If the keyword parameter ``key'' is given, then the result of
+   the ``key'' is used as sort keys of each element. If ``key'' is
+   not given, then the element it self
+   is used.
 
-    In order to decide the position of each element of ``seq'' in
-    ``order-lst,'' we have to check the equality between the element
-    in these two lists. If the keyword parameter ``test'' is given,
-    it is used for this purpose. EQL is the default.
+   In order to decide the position of each element of ``seq'' in
+   ``order-lst,'' we have to check the equality between the element
+   in these two lists. If the keyword parameter ``test'' is given,
+   it is used for this purpose. EQL is the default.
 
-    ex.)
-        (denotative-sort '(2 1 0) (iota 3)) => (2 1 0) ; boring
-        (denotative-sort '(0 1 2) (iota 10) :key (papply #'mod _ 3))
-            => (0 3 6 9 1 4 7 2 5 8)
-  ;}}}"
+   ex.)
+    (denotative-sort '(2 1 0) (iota 3)) ; => (2 1 0) ; boring
+    (denotative-sort '(0 1 2) (iota 10) :key (papply #'mod _ 3))
+    ; => (0 3 6 9 1 4 7 2 5 8)
+"
   (sort
     seq
     (lambda (x y)
