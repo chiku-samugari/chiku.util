@@ -87,18 +87,31 @@
         ((null (cdr forms)) (car forms))
         (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
-(defmacro with-functions ((&rest templates) &body body)
+;;; Although the variation that offers local macro instead of local
+;;; function is possible, that does not cooperate well with PAPPLY
+;;; macro. The form
+;;;
+;;;     #'(fn ...)
+;;;
+;;; will be converted into
+;;;
+;;;     (apply #'fn ...)
+;;;
+;;; because the newer version of PAPPLY does not accept form format
+;;; whose operator is a variable bound to a function.
+(defmacro with-oneish ((&rest templates) &body body)
   "Usage:
-     (with-functions (f g) body)
-     (with-functions ((f x) (g x y)) body)
+     (with-oneish (f g) body)
+     (with-oneish ((f x) (g x y)) body)
 
    `f` and `g` here are variables bound to functions and these symbols
-  are made be local functions in BODY. These are still available as
-  variables, too. The second form is not only explanatory but also
-  terser than the first form. Nested form is not acceptable as elements
-  of TEMPLATES. Multiple times use of one or more symbols in an element
-  of TEMPLATES is also not accepted. CL:LABELS should be used for such a
-  complexed case."
+   are made be local functions in BODY. Naturally, these are still
+   available as variables too. The second form is not only explanatory
+   but also terser than the first form because the arity is made clear.
+
+    Nested form is not acceptable as elements of TEMPLATES. Multiple
+   times use of one or more symbols in an element of TEMPLATES is also
+   not accepted. CL:LABELS should be used for such a complexed case."
   `(labels ,(mapcar #'(if (symbolp a0)
                         `(,a0 (&rest args) (apply ,a0 args))
                         `(,(car a0) ,(cdr a0) (funcall ,@a0)) )
@@ -948,7 +961,7 @@
    exists, which is defaulted to NIL.
 
    Use CL:FIND-IF instead if KEY is not needed."
-  (with-functions ((pred x) (key x))
+  (with-oneish ((pred x) (key x))
     (do ((seq sequence (drop seq)))
       ((zerop (length seq)) failed)
       (let ((projected (key (elt seq 0))))

@@ -43,7 +43,7 @@
   ;; PAPPLY's behaviour is hard to guess and should be eliminated. I
   ;; completely forgot this behaviour until now. In addition,
   ;; WITH-FUNCTIONS macro is better solution for the situation assumed.
-  (with-functions ((order x y) (key x))
+  (with-oneish ((order x y) (key x))
     (reduce (lambda (acc item)
               (let ((projected (key item)))
                 (if (find-if #'(order projected (key _)) acc)
@@ -60,7 +60,7 @@
    type to SEQ composed of SEQ's maximal elements in the sence of ORDER
    is returned. ORDER must be a partial order over SEQ; it must be
    reflexive, antisymmetric and transitive."
-  (with-functions ((order x y) (key x))
+  (with-oneish ((order x y) (key x))
     ;; KEY of REMOVE-IF and FIND-IF is not useful in this case because
     ;; we want to check and skip if A0 is ELEMENT.
     (remove-if (lambda (element)
