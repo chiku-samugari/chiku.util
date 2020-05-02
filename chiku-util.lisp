@@ -118,15 +118,15 @@
                     templates)
      ,@body))
 
-;;; CHECK&STRING= function;{{{
+;;; CHECK&STRING= function
 ;;; This function checks if all 2 arguments
-;;; which are passed to this function are string before compare them.;}}}
+;;; which are passed to this function are string before compare them.
 (defun check&string= (x y) (and (stringp x) (stringp y) (string= x y)))
 
-;;; NEXT-TO function;{{{
+;;; NEXT-TO function
 ;;; This function returns object in the sequence "seq" next to "item".
 ;;; For list, same as following
-;;; (cadr (member item lst));}}}
+;;; (cadr (member item lst))
 (defun next-to (item seq &key (test #'eql) (key #'identity))
   (let ((pos (position item seq :test test :key key)))
     (and pos (/= (1- (length seq)) pos) (nth (1+ pos) seq))))
@@ -138,13 +138,13 @@
        (c 0 (1+ c)))
     ((= c num) (nreverse acc))))
 
-;;; FILTER-NEXT-TO function;{{{
+;;; FILTER-NEXT-TO function
 ;;; Originally, the name of this function was DO-AND-SEARCH-MORE.
 ;;; I observe the behavior of this function and decide to change the name.
 ;;; This function takes at least 4 parameters and 2 keyword parameters.
 ;;; Please take care. The order of parameters have changed.
 ;;; Call the given function "fn" with the next element of "mark" in "lst".
-;;; Repeat this action to the subsequence of "lst" starts with "restart-from";}}}
+;;; Repeat this action to the subsequence of "lst" starts with "restart-from"
 (defun filter-next-to (fn seq mark restart-from &key (test #'eql) (key #'identity))
   (when seq
     (let ((mark-pos (position mark seq :key key :test test))
@@ -154,7 +154,7 @@
                  (if restart-pos (filter-next-to fn (subseq seq (1+ restart-pos)) mark restart-from :key key :test test)))))))
 
 ;(filter-next-to #'identity "a * (b) + (c) + d + (e) - (f)" #\( #\) :test #'char=)
-;;; Following is the original implementation of DO-AND-SEARCH-MORE function.;{{{
+;;; Following is the original implementation of DO-AND-SEARCH-MORE function.
 ;;; The behavior is slight different from FILTER-NEXT-TO function.
 ;;; But FILTER-NEXT-TO is more natural. FILTER-NEXT-TO is more intuitive.
 ;(defun do-and-search-more (seq func start end &key (key #'identity) (test #'eql))
@@ -164,9 +164,9 @@
 ;      (if (and spos epos (< spos epos))
 ;        (remove nil (list (funcall func (elt seq (1+ spos)))
 ;              (do-and-search-more (subseq seq (1+ epos)) func start end :key key :test test)))))))
-;(do-and-search-more "a * (b) + (c) + d + (e) - (f)" #'identity #\( #\) :test #'char=);}}}
+;(do-and-search-more "a * (b) + (c) + d + (e) - (f)" #'identity #\( #\) :test #'char=)
 
-;;; POSITION-LIST function;{{{
+;;; POSITION-LIST function
 ;;; This function makes the list constructs from the position of "x" in "lst".
 ;;; I implemented this one for my research
 ;;; but the main idea came from a book called "Programming Haskell" written by Graham Hutton.
@@ -178,7 +178,7 @@
 ;;;     The main problem is REMOVE function. I think this function can be defined
 ;;;     in tail-recursive form with accumulator and push-nreverse idiom.
 ;;; By the way, I feel the definition of "pred" inner function is quite good.
-;;; I feel this is a proper usage of inner function.;}}}
+;;; I feel this is a proper usage of inner function.
 ;;;(defun position-list (item lst &key (key #'identity) (test #'eql))
 ;;;  (labels ((pred (x) (funcall test item x)))
 ;;;    (remove nil (mapcar (lambda (x idx) (if (pred (funcall key x)) idx nil)) lst (iota (length lst))))))
@@ -194,13 +194,13 @@
                  (nreverse (maplist (lambda (x) (reduce #'+ x)) acc))))))
     (rest (rec seq (list -1)))))
 
-;;; POSITINO-IF-LIST function;{{{
+;;; POSITINO-IF-LIST function
 ;;; This function makes the list constructs from the position of
 ;;; elements in "lst" which satisfies "pred".
 ;;; 16th Nov, 2010
 ;;; This function must be implemented based on POSITION-IF.  Thus I
 ;;; change the order of "pred" and "lst". (I've already been familiar
-;;; with this order, in any way);}}}
+;;; with this order, in any way)
 (defun position-if-list (pred seq &key (key #'identity))
   (if (eql (type-of seq) 'cons)
     (let ((dummy (gensym)))
@@ -214,16 +214,16 @@
         (if (funcall pred (funcall key (elt seq idx)))
           (push idx result))))))
 
-;;; CONCAT-STR function;{{{
+;;; CONCAT-STR function
 ;;; This function will concatenate given strings.
 ;;; It's the short form for "(concatenate 'string ... )"
-;;; Should it be written as a macro? I'm not sure ...;}}}
+;;; Should it be written as a macro? I'm not sure ...
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun concat-str (&rest strs)
     (warn "CONCAT-STR is obsolete. Use CHIKU.UTIL:CONCAT instead.")
     (apply #'concatenate (cons 'string strs))))
 
-;;; FLATTEN function;{{{
+;;; FLATTEN function
 ;;; I took this name and concept from OnLisp.
 ;;; Following is my implementation (different from implementation at OnLisp).
 ;(defun flatten (tree)
@@ -233,7 +233,7 @@
 ;                      (t (append (rec (car tree)) (rec (cdr tree)))))))
 ;    (rec tree)))
 ;;; I feel the implementation at OnLisp is better.
-;;; It's not good to understand the behavior, but has better performance.;}}}
+;;; It's not good to understand the behavior, but has better performance.
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun flatten (tree)
     (labels ((rec (tree acc)
@@ -242,10 +242,10 @@
                      (t (rec (car tree) (rec (cdr tree) acc))))))
       (rec tree nil))))
 
-;;; ITOA function;{{{
+;;; ITOA function
 ;;; I took this name from C.
 ;;; (As you know, this function is not in standard C.)
-;;; The behavior is same as itoa.;}}}
+;;; The behavior is same as itoa.
 (defun ITOA (num)
   (prin1-to-string num))
 
@@ -270,7 +270,7 @@
   (aif (apply #'position-if (complement pred) seq args)
     (subseq seq it)))
 
-;;; GROUP function;{{{
+;;; GROUP function
 ;;; I took this name and idea from OnLisp. How useful book is this ...
 ;;; Gatheres each "n" elements in "lst" and returns the list of these groups.
 ;;; Following is my first implementation. It's good to understand the behavior.
@@ -292,7 +292,7 @@
 ;;; (The key idear was CONSP function.)
 ;;; My code has an advantage that it can be used for general sequence (not only for list),
 ;;; So I leave the seconde implementation after change the name.
-;;; (But, I feel it's not so common situation that this function will be used for any sequence other than list.);}}}
+;;; (But, I feel it's not so common situation that this function will be used for any sequence other than list.)
 (defun group (lst n)
   (if (zerop n) (error "zero length"))
   (labels ((rec (lst acc)
@@ -314,7 +314,7 @@
                (nreverse a))))
     (rec seq nil)))
 
-;;; COMPOSE function;{{{
+;;; COMPOSE function
 ;;; When I wanted to accumulate the result of functions,
 ;;; I realized this can be expressed by function composition.
 ;;; This function takes one argument "fn-lst" that is constructed by
@@ -323,7 +323,7 @@
 ;;; "fn-lst" and so on.
 ;;; Mar. 22nd 2014, chiku
 ;;; The order of functions is not proper.
-;;; ;}}}
+;;; 
 #+nil
 (defun compose (fn-lst)
   (lambda (x) (reduce (lambda (a fn) (funcall fn a)) (cons x fn-lst))))
@@ -676,7 +676,7 @@
     (dolist (args (apply #'mapcar #'list lsts) (nreverse acc))
       (aif (apply fn args)
         (push it acc)))))
-;;; To tell the truth, what I used in my code was more limited version.;{{{
+;;; To tell the truth, what I used in my code was more limited version.
 ;;; I called this function COLLECT, and implementation was following.
 ;(defun collect (lst pred)
 ;  (when lst
@@ -688,7 +688,7 @@
 ;;; But please notice that this function is same as REMOVE-IF-NOT.
 ;(defun collect (lst pred) (remove-if-not pred lst))
 ;;; From this point of view, COLLECT has no worth to implent.
-;;; However, REMOVE-IF-NOT function can't be used to implemnt FILTER. FILTER is worth to be implented.;}}}
+;;; However, REMOVE-IF-NOT function can't be used to implemnt FILTER. FILTER is worth to be implented.
 
 ;;; Jan. 19th 2012, chiku
 ;;; This is a lax function to access a text file.
