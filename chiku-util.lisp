@@ -256,7 +256,7 @@
 ;;; Updated to be applicable to sequence. The order of argument is also
 ;;; changed.
 (defun takewhile (pred seq &rest args &key from-end (start 0) end key)
-  (declare (ignore from-end start end key))
+  (declare (ignorable from-end start end key))
   (subseq seq start (apply #'position-if (complement pred) seq args)))
 
 ;;; Oct. 25th 2012, chiku
