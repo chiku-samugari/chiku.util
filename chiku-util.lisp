@@ -188,10 +188,10 @@
 ;;; also for general sequence.
 (defun position-list (item seq &key (key #'identity) (test #'eql))
   (labels ((rec (s acc)
-                (let ((pos (position item s :key key :test test)))
-                  (if pos
-                    (rec (subseq s (1+ pos)) (cons (1+ pos) acc))
-                    (nreverse (maplist (lambda (x) (reduce #'+ x)) acc))))))
+             (let ((pos (position item s :key key :test test)))
+               (if pos
+                 (rec (subseq s (1+ pos)) (cons (1+ pos) acc))
+                 (nreverse (maplist (lambda (x) (reduce #'+ x)) acc))))))
     (rest (rec seq (list -1)))))
 
 ;;; POSITINO-IF-LIST function;{{{
@@ -296,10 +296,10 @@
 (defun group (lst n)
   (if (zerop n) (error "zero length"))
   (labels ((rec (lst acc)
-           (let ((rest (nthcdr n lst)))
-             (if (consp rest)
-               (rec rest (cons (subseq lst 0 n) acc))
-               (nreverse (cons lst acc))))))
+             (let ((rest (nthcdr n lst)))
+               (if (consp rest)
+                 (rec rest (cons (subseq lst 0 n) acc))
+                 (nreverse (cons lst acc))))))
     (rec lst nil)))
 
 ;(group (list 1 2 3 4 6) 2)
@@ -363,7 +363,7 @@
   (format stream   "--------------~%")
   (maphash
     (lambda (k v)
-        (format stream "~a -> ~a~%" k v))
+      (format stream "~a -> ~a~%" k v))
     ht))
 
 ;;; July 25th 2012, chiku
@@ -556,10 +556,10 @@
   (labels ((rec (lst)
              (if lst
                (mapcan (lambda (x)
-                           (let ((head (car lst)))
-                             (if (funcall forkp head)
-                               (list (cons head x) x)
-                               (list (cons head x)))))
+                         (let ((head (car lst)))
+                           (if (funcall forkp head)
+                             (list (cons head x) x)
+                             (list (cons head x)))))
                        (rec (cdr lst)))
                (list ()))))
     (rec lst)))
@@ -674,8 +674,8 @@
 (defun filter (fn &rest lsts)
   (let ((acc nil))
     (dolist (args (apply #'mapcar #'list lsts) (nreverse acc))
-        (aif (apply fn args)
-          (push it acc)))))
+      (aif (apply fn args)
+        (push it acc)))))
 ;;; To tell the truth, what I used in my code was more limited version.;{{{
 ;;; I called this function COLLECT, and implementation was following.
 ;(defun collect (lst pred)
@@ -770,14 +770,15 @@
   (sort
     seq
     (lambda (x y)
-        (< (position x order-lst :test test)
-           (position y order-lst :test test)))
+      (< (position x order-lst :test test)
+         (position y order-lst :test test)))
     :key key))
 
 (defun denotative-stable-sort (order-lst seq &key key test)
   " denotative-stable-sort order-lst seq &key key test => sorted-seq
-    A stable variation of denotative-sort. See the denotative-sort.
-  "
+
+   A stable variation of denotative-sort. See the denotative-sort.
+   "
   (stable-sort
     seq
     (lambda (x y) (< (position x order-lst :test test) (position y order-lst :test test)))
@@ -1010,17 +1011,17 @@
 ;;; I was wrong. It seems convinient to have the default method.
 (defmacro dlambda (&body keyword-args-body)
   (with-gensyms (args)
-  `(lambda (&rest ,args)
+    `(lambda (&rest ,args)
        (case (car ,args)
          ,@(mapcar
              (lambda (x)
-                 `(,(if (eq (car x) t)
-                      t
-                      (list (car x)))
-                    (apply (lambda ,@(cdr x))
-                           ,(if (eq (car x) t)
-                              args
-                              `(cdr ,args)))))
+               `(,(if (eq (car x) t)
+                    t
+                    (list (car x)))
+                  (apply (lambda ,@(cdr x))
+                         ,(if (eq (car x) t)
+                            args
+                            `(cdr ,args)))))
              keyword-args-body)))))
 
 ;;; LREC function and ALREC macro
@@ -1035,11 +1036,11 @@
 
 (defmacro alrec (recform &optional base)
   (with-gensyms (fn)
-                `(lrec (lambda (it ,fn)
-                         (declare (ignorable it ,fn))
-                         (symbol-macrolet ((rec (funcall ,fn)))
-                           ,recform))
-                       ,base)))
+    `(lrec (lambda (it ,fn)
+             (declare (ignorable it ,fn))
+             (symbol-macrolet ((rec (funcall ,fn)))
+               ,recform))
+           ,base)))
 
 ;;; Oct. 16th 2012, chiku
 ;;; PRINTING-LET and PRINTING-LET* macro
@@ -1146,14 +1147,14 @@
 ;;; functions for each specific symbol type.
 (defmacro package-symbol-list (pkgdsg symbol-type)
   `(with-package-iterator (next ,pkgdsg ,symbol-type)
-    (let (sym-lst)
-      (loop
-        (multiple-value-bind (more? s accessibility package)
-          (next)
-          (declare (ignorable accessibility package))
-          (if more?
-            (push s sym-lst)
-            (return sym-lst)))))))
+     (let (sym-lst)
+       (loop
+         (multiple-value-bind (more? s accessibility package)
+           (next)
+           (declare (ignorable accessibility package))
+           (if more?
+             (push s sym-lst)
+             (return sym-lst)))))))
 
 (defun package-internal-symbols (pkgdsg)
   (package-symbol-list pkgdsg :internal))
@@ -1214,7 +1215,8 @@
 ;;; See src/lisp/listing-with-determiner/ for detail.
 (defun listing (&rest det-item-pairs)
   " det-item-pairs : a list of pairs whose CAR determines if the
-    CDR element should be included in the returned list."
+
+   CDR element should be included in the returned list."
   (reduce (lambda (pair partial)
             (if (car pair)
               (cons (cdr pair) partial)
@@ -1246,13 +1248,14 @@
              generalized boolean.
     key --- a designator for a function of one parameter.
 
-   It first removes all the objects that is equal to OBJ in PLACE and then
-   PUSHes the OBJ into PLACE. Equality of objects are checked with the value
-   that is acquired by applying the function specified to KEY keyword parameter
-   and tested by the function specified to TEST keyword parameter. Defaults for
-   KEY and TEST are #'IDENTITY and #'EQL, respectively.
-    The KEY function, if supplied, is applied to OBJ too and the result object
-   is used to the equality check, likewise PUSHNEW and ADJOIN.
+   It first removes all the objects that is equal to OBJ in PLACE and
+   then PUSHes the OBJ into PLACE. Equality of objects are checked with
+   the value that is acquired by applying the function specified to KEY
+   keyword parameter and tested by the function specified to TEST
+   keyword parameter. Defaults for KEY and TEST are #'IDENTITY and
+   #'EQL, respectively.  The KEY function, if supplied, is applied to
+   OBJ too and the result object is used to the equality check, likewise
+   PUSHNEW and ADJOIN.
    "
   (once-only (obj)
     `(progn
