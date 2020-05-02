@@ -38,11 +38,6 @@
   "A list composed of maximal elements of SEQ in the sence of ORDER is
    returned. ORDER must be a partial order over SEQ; it must be
    reflexive, antisymmetric and transitive."
-  ;; TODO: The local function ORDER defined here is not used because
-  ;; variable is prior to function name in PAPPLY's conversion.  This
-  ;; PAPPLY's behaviour is hard to guess and should be eliminated. I
-  ;; completely forgot this behaviour until now. In addition,
-  ;; WITH-FUNCTIONS macro is better solution for the situation assumed.
   (with-oneish ((order x y) (key x))
     (reduce (lambda (acc item)
               (let ((projected (key item)))
