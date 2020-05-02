@@ -1223,7 +1223,7 @@
           :initial-value ()
           :from-end t))
 
-(defmacro list/det% (&body clauses) 
+(defmacro list/det% (&body clauses)
   (if clauses
     (destructuring-bind ((det val) . tl) clauses
       (if (eq det t) ; Not just DET. I want to limit this optimization.
