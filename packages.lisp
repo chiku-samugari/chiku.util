@@ -128,7 +128,7 @@
     :tprint
     :maximize
     :imapcar
-    :with-functions
+    :with-oneish
     :projected-find-if
     :maximals
     :seqmaximals
