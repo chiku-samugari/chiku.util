@@ -956,7 +956,7 @@
    exists, which is defaulted to NIL.
 
    Use CL:FIND-IF instead if KEY is not needed."
-  (with-oneish ((pred x) (key x))
+  (with-oneish (pred key)
     (do ((seq sequence (drop seq)))
       ((zerop (length seq)) failed)
       (let ((projected (key (elt seq 0))))

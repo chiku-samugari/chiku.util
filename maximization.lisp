@@ -38,7 +38,7 @@
   "A list composed of maximal elements of SEQ in the sence of ORDER is
    returned. ORDER must be a partial order over SEQ; it must be
    reflexive, antisymmetric and transitive."
-  (with-oneish ((order x y) (key x))
+  (with-oneish (order key)
     (reduce (lambda (acc item)
               (let ((projected (key item)))
                 (if (find-if #'(order projected (key _)) acc)
@@ -55,7 +55,7 @@
    type to SEQ composed of SEQ's maximal elements in the sence of ORDER
    is returned. ORDER must be a partial order over SEQ; it must be
    reflexive, antisymmetric and transitive."
-  (with-oneish ((order x y) (key x))
+  (with-oneish (order key)
     ;; KEY of REMOVE-IF and FIND-IF is not useful in this case because
     ;; we want to check and skip if A0 is ELEMENT.
     (remove-if (lambda (element)
