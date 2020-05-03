@@ -87,7 +87,7 @@
         ((null (cdr forms)) (car forms))
         (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
-(defmacro with-oneish ((&rest templates) &body body)
+(defmacro with-oneish ((&rest fn-vars) &body body)
   "Usage:
      (with-oneish (f g) body)
      (with-oneish ((f x) (g x y)) body)
@@ -99,8 +99,8 @@
    an condition if the number of arguments does not match the number of
    parameters in the second form.
 
-    Nested form is not acceptable as elements of TEMPLATES. Multiple
-   times use of one or more symbols in an element of TEMPLATES is also
+    Nested form is not acceptable as elements of FN-VARS Multiple
+   times use of one or more symbols in an element of FN-VARS is also
    not accepted. CL:LABELS or CL:MACROLET should be used for such a
    complicated situation."
   `(macrolet ,(mapcar #'(if (symbolp a0)
@@ -108,7 +108,7 @@
                             `(,a0 (&rest ,args) `(funcall ,',a0 ,@,args)))
                           (destructuring-bind (var &rest args) a0
                             `(,var ,args `(funcall ,',var ,,@args))))
-                      templates)
+                      FN-VARS)
      ,@body))
 
 ;;; CHECK&STRING= function
