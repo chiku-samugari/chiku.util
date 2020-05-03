@@ -87,35 +87,28 @@
         ((null (cdr forms)) (car forms))
         (t `(aif ,(car forms) (aand ,@(cdr forms))))))
 
-;;; Although the variation that offers local macro instead of local
-;;; function is possible, that does not cooperate well with PAPPLY
-;;; macro. The form
-;;;
-;;;     #'(fn ...)
-;;;
-;;; will be converted into
-;;;
-;;;     (apply #'fn ...)
-;;;
-;;; because the newer version of PAPPLY does not accept form format
-;;; whose operator is a variable bound to a function.
 (defmacro with-oneish ((&rest templates) &body body)
   "Usage:
      (with-oneish (f g) body)
      (with-oneish ((f x) (g x y)) body)
 
    `f` and `g` here are variables bound to functions and these symbols
-   are made be local functions in BODY. Naturally, these are still
-   available as variables too. The second form is not only explanatory
-   but also terser than the first form because the arity is made clear.
+   are made be local macros in BODY. Naturally, these are still
+   available as variables too. The second form is merely explanatory and
+   both form finally converted into a same form. Second form can raise
+   an condition if the number of arguments does not match the number of
+   parameters in the second form.
 
     Nested form is not acceptable as elements of TEMPLATES. Multiple
    times use of one or more symbols in an element of TEMPLATES is also
-   not accepted. CL:LABELS should be used for such a complexed case."
-  `(labels ,(mapcar #'(if (symbolp a0)
-                        `(,a0 (&rest args) (apply ,a0 args))
-                        `(,(car a0) ,(cdr a0) (funcall ,@a0)) )
-                    templates)
+   not accepted. CL:LABELS or CL:MACROLET should be used for such a
+   complicated situation."
+  `(macrolet ,(mapcar #'(if (symbolp a0)
+                          (with-gensyms (args)
+                            `(,a0 (&rest ,args) `(funcall ,',a0 ,@,args)))
+                          (destructuring-bind (var &rest args) a0
+                            `(,var ,args `(funcall ,',var ,,@args))))
+                      templates)
      ,@body))
 
 ;;; CHECK&STRING= function
