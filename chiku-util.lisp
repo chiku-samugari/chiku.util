@@ -129,7 +129,7 @@
   (do ((i start (+ i step))
        (acc '() (cons i acc))
        (c 0 (1+ c)))
-    ((= c num) (nreverse acc))))
+    ((<= num c) (nreverse acc))))
 
 ;;; FILTER-NEXT-TO function
 ;;; Originally, the name of this function was DO-AND-SEARCH-MORE.
